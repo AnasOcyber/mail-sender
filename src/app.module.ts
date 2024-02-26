@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
+import { EmailConsumer } from './email.processor';
 
 @Module({
   imports: [
@@ -12,10 +13,10 @@ import { BullModule } from '@nestjs/bull';
       },
     }),
     BullModule.registerQueue({
-      name: 'emailSender',
+      name: 'emailList',
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EmailConsumer],
 })
 export class AppModule {}

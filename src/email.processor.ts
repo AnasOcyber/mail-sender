@@ -2,8 +2,10 @@ import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { Mail } from './interfaces/mail.interface';
 
-@Processor('emailSender')
-export class EmailProcessor {
+@Processor('emailList')
+export class EmailConsumer {
   @Process()
-  sendEmail(job: Job<Mail>) {}
+  async sendEmail(job: Job<Mail>) {
+    console.log(job.queue);
+  }
 }

@@ -5,11 +5,9 @@ import { Mail } from './interfaces/mail.interface';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectQueue('emailSender') private emailQueue: Queue) {}
+  constructor(@InjectQueue('emailList') private emailQueue: Queue) {}
 
-  async sendEmail(data: Mail) {
-    const job = await this.emailQueue.add({ data });
-    console.log(job);
-    return { jobId: job.id };
+  async sendEmail() {
+    await this.emailQueue.add({ mail: 'New Email' });
   }
 }
