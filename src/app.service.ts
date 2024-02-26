@@ -1,13 +1,14 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
-import { Mail } from './interfaces/mail.interface';
+import { GetEmailDto } from './dto/get-email.dto';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectQueue('emailList') private emailQueue: Queue) {}
+  constructor(@InjectQueue('emailList') private readonly emailQueue: Queue) {}
 
-  async sendEmail() {
-    await this.emailQueue.add({ mail: 'New Email' });
+  async sendEmail(emailDto: GetEmailDto) {
+    const job = await this.emailQueue.add(emailDto);
+    return { jobId: job.id };
   }
 }
