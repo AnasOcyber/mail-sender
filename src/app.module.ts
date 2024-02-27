@@ -5,6 +5,8 @@ import { BullModule } from '@nestjs/bull';
 import { EmailConsumer } from './email.processor';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { join } from 'path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -28,6 +30,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             user: configService.get('GMAIL_USER'),
             pass: configService.get('GMAIL_PASS'),
           },
+        },
+        template: {
+          dir: join(__dirname, 'templates'),
+          adapter: new HandlebarsAdapter(),
         },
       }),
     }),

@@ -5,17 +5,19 @@ import { MailerService } from '@nestjs-modules/mailer';
 
 @Processor('emailList')
 export class EmailConsumer {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(private readonly mailService: MailerService) {}
 
   @Process()
   async sendEmail({ data }: Job<Mail>) {
     console.log('Sending email');
-    await this.mailerService.sendMail({
+
+    await this.mailService.sendMail({
       ...data,
-      subject: 'Hello World',
-      template: 'src/templates/email',
-      text: 'Hello World',
+      subject: 'Welcome',
+      template: 'email',
+      context: data,
     });
-    console.log('Email sent');
+
+    console.log('Email sent to', data.to);
   }
 }
