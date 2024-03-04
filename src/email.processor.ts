@@ -11,11 +11,17 @@ export class EmailConsumer {
   async sendEmail({ data }: Job<Mail>) {
     console.log('Sending email');
 
+    const context = {
+      ...data,
+      subject: 'Welcome',
+      template: 'email',
+    };
+
     await this.mailService.sendMail({
       ...data,
       subject: 'Welcome',
       template: 'email',
-      context: data,
+      context,
     });
 
     console.log('Email sent to', data.to);
