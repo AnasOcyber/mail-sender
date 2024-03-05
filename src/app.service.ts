@@ -17,6 +17,8 @@ export class AppService {
     const job = await this.emailQueue.add(emailDto);
     const email = await this.emailModel.create(emailDto);
 
+    console.log('Email job is added to the queue as well as MongoDB');
+
     return {
       jobId: job.id,
       emailId: email.subject,
