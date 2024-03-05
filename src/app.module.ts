@@ -7,9 +7,13 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Email, EmailSchema } from './schemas/email.schema';
 
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb://localhost/mail-sender'),
+    MongooseModule.forFeature([{ name: Email.name, schema: EmailSchema }]),
     ConfigModule.forRoot(),
     BullModule.forRoot({
       redis: {
